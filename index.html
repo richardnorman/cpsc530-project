@@ -10,15 +10,52 @@
               <a class="navbar-brand" href="#"><b>Brute Force Password Attack</b></a>
             </div>
           </nav>
-          <div id="content">
-            <p>Hello, world!</p>
-            <button onclick="hash1()">Click me</button>
-          </div>
-        <script>
-            function hash3() {
-                alert("hi")
-            }
-        </script>
+          <div class="content">
+            <p>Weak passwords:</p>
+            <div style="display: flex;">            
+                <ul>
+                    <li>123456789</li>
+                    <li>123456</li>
+                    <li>password</li>
+                    <li>12345</li>
+                    <li>qwerty</li>
+                </ul>
+                <ul>
+                    <li>qwerty123</li>
+                    <li>1q2w3e</li>
+                    <li>12345678</li>
+                    <li>111111</li>
+                    <li>1234567890</li>
+                </ul>
+            </div>
+            <button onclick="hash1()">Crack the weak passwords and their hashes</button>
+            <br>
+            <br>
+            <br>
+            <p>Strong passwords:</p>
+            <div style="display: flex;">            
+                <ul>
+                    <li>1Ki77y</li>
+                    <li>.Susan53</li>
+                    <li>jelly22fi$h</li>
+                    <li>$m3llycat</li>
+                    <li>a11Black$</li>
+                </ul>
+                <ul>
+                    <li>!ush3r</li>
+                    <li>SterlingGmail20.15</li>
+                    <li>d3ltagamm@</li>
+                    <li>!Lov3MyPiano</li>
+                    <li>&ebay.44</li>
+                </ul>
+            </div>
+            <button onclick="hash2()">Crack the strong passwords and their hashes</button>
+        </div>
+            <script>
+                function hash3() {
+                    alert("hi")
+                }
+                </script>
         <script src="./index.js" type="text/javascript"></script>
     </Body>
 </html>
