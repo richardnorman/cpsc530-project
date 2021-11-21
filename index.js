@@ -1,6 +1,6 @@
 //var crypto = require('crypto')
 
-function hash1() {
+function crackWeakPasswords() {
     //var shasum = crypto.createHash('sha1')
     //shasum.update('foo')
     //alert(shasum.digest('bar'))
@@ -8,7 +8,7 @@ function hash1() {
 
 }
 
-function hash2() {
+function crackStrongPasswords() {
     //var shasum = crypto.createHash('sha1')
     //shasum.update('foo')
     //alert(shasum.digest('bar'))
