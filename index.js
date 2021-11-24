@@ -67,9 +67,9 @@ function crackWeakPasswords() {
   console.log("Stopwatch")
   startStopwatch()
   hashedPasswords.forEach(element => {
-    crackPassword(element)
+    //crackPassword(element)
   });
-  //sleep(1000)
+  sleep(1000)
   console.log("sleep")
   stopStopwatch()
   console.log("It took: " + timer_minutes + ":" + timer_seconds + ":" + timer_milliseconds)
@@ -150,6 +150,7 @@ function encrypt(msg) {
    paused = true;
 
  function startStopwatch(evt) {
+   document.querySelector('#loadingWeak').style.display = 'block'
    if (paused) {
      offset = 0
      paused = false;
@@ -163,12 +164,14 @@ function encrypt(msg) {
      paused = false;
      offset -= Date.now();
    }
+   document.querySelector('#loadingStrong').style.display = 'block'
  }
 
 function stopStopwatch(evt) {
    if (!paused) {
      paused = true;
      offset += Date.now();
+     //document.querySelector('#loadingWeak').style.display = 'none'
      render2()
    }
 }
@@ -177,6 +180,7 @@ function stopStopwatch2(evt) {
    if (!paused) {
      paused = true;
      offset += Date.now();
+     //document.querySelector('#loadingStrong').style.display = 'none'
      render2()
    }
 }
