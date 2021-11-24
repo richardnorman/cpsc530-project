@@ -72,6 +72,8 @@ function crackWeakPasswords() {
   sleep(1000)
   console.log("sleep")
   stopStopwatch()
+  changeGreen()
+  document.getElementById("checkMark").style.visibility = "visible";
   console.log("It took: " + timer_minutes + ":" + timer_seconds + ":" + timer_milliseconds)
   //alert("Done cracking!")
 
@@ -109,6 +111,9 @@ function crackStrongPasswords() {
     crackPassword(element)
   })
   stopStopwatch2()
+  changeGreen()
+  document.getElementById("checkMark2").style.visibility = "visible";
+
 }
 
 function crackPassword(correctHashedPassword) {
@@ -171,7 +176,7 @@ function stopStopwatch(evt) {
    if (!paused) {
      paused = true;
      offset += Date.now();
-     //document.querySelector('#loadingWeak').style.display = 'none'
+     document.querySelector('#loadingWeak').style.display = 'none'
      render2()
    }
 }
@@ -213,6 +218,13 @@ function render2() {
   document.querySelector('#s_seconds').textContent = format(value, 1000, 60, 2);
   document.querySelector('#s_minutes').textContent = format(value, 60000, 60, 2);
   document.querySelector('#timerWeak').style.display = 'block'
+}
+
+function changeGreen()
+{
+    document.getElementById("s_ms").style.color="green";
+    document.getElementById("s_seconds").style.color="green";
+    document.getElementById("s_minutes").style.color="green"; 
 }
 
 let weakbutton = document.getElementById("crackWeakPasswords");
