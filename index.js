@@ -111,7 +111,7 @@ function crackStrongPasswords() {
     crackPassword(element)
   })
   stopStopwatch2()
-  changeGreen()
+  changeGreen2()
   document.getElementById("checkMark2").style.visibility = "visible";
 
 }
@@ -225,6 +225,13 @@ function changeGreen()
     document.getElementById("s_ms").style.color="green";
     document.getElementById("s_seconds").style.color="green";
     document.getElementById("s_minutes").style.color="green"; 
+}
+
+function changeGreen2()
+{
+    document.getElementById("s_ms2").style.color="green";
+    document.getElementById("s_seconds2").style.color="green";
+    document.getElementById("s_minutes2").style.color="green"; 
 }
 
 let weakbutton = document.getElementById("crackWeakPasswords");
