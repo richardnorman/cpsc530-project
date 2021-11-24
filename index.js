@@ -201,23 +201,22 @@ function render() {
   timer_milliseconds = format(value, 1, 1000, 3)
   timer_seconds = format(value, 1000, 60, 2)
   timer_minutes = format(value, 60000, 60, 2)
-  document.querySelector('#s_ms2').textContent = format(value, 1, 1000, 3);
-  document.querySelector('#s_seconds2').textContent = format(value, 1000, 60, 2);
-  document.querySelector('#s_minutes2').textContent = format(value, 60000, 60, 2);
-  document.querySelector('#timerStrong').style.display = 'block'
+  document.querySelector('#s_ms2').textContent = format(value, 1, 1000, 3)
+  document.querySelector('#s_seconds2').textContent = format(value, 1000, 60, 2)
+  document.querySelector('#s_minutes2').textContent = format(value, 60000, 60, 2)
+  document.querySelector('#timerWeak').style.display = 'block'
 }
 
 function render2() {
-  console.log("test")
   var value = paused ? offset : Date.now() + offset;
 
   timer_milliseconds = format(value, 1, 1000, 3)
   timer_seconds = format(value, 1000, 60, 2)
   timer_minutes = format(value, 60000, 60, 2)
-  document.querySelector('#s_ms').textContent = format(value, 1, 1000, 3);
-  document.querySelector('#s_seconds').textContent = format(value, 1000, 60, 2);
-  document.querySelector('#s_minutes').textContent = format(value, 60000, 60, 2);
-  document.querySelector('#timerWeak').style.display = 'block'
+  document.querySelector('#s_ms').textContent = format(value, 1, 1000, 3)
+  document.querySelector('#s_seconds').textContent = format(value, 1000, 60, 2)
+  document.querySelector('#s_minutes').textContent = format(value, 60000, 60, 2)
+  document.querySelector('#timerStrong').style.display = 'block'
 }
 
 function changeGreen()
