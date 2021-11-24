@@ -1,8 +1,7 @@
-//    var crypto = require('crypto')
-let timer_minutes
-let timer_seconds
-let timer_milliseconds
-let hashedMostCommonPassword = [
+var timer_minutes
+var timer_seconds
+var timer_milliseconds
+var hashedMostCommonPassword = [
   '7C4A8D09CA3762AF61E59520943DC26494F8941B',
   'F7C3BC1D808E04732ADF679965CCC34CA7AE3441',
   'B1B3773A05C0ED0176787A4F1574FF0075F7521E',
@@ -41,11 +40,11 @@ function cycleThroughRecursion(currentHashingIndex, currentHashingPassword, curr
   //let cycleThroughIndex = currentHashingIndex + 1
   if (currenthashedweakPassword == currentHashedWeakPassword) {
     return true
-   }
+  }
 
-   if (currentHashingIndex == currentHashingIndex.length) {
-    return false;
-   } else {
+  if (currentHashingIndex == currentHashingIndex.length) {
+    return false
+  } else {
     // hash and compare
     currentHashingPassword[currentHashingLetterIndex] = String.fromCharCode(currentCharASCII)
     currentCharASCII ++
@@ -58,55 +57,64 @@ function cycleThroughRecursion(currentHashingIndex, currentHashingPassword, curr
 }
 
 function crackWeakPasswords() {
-//    var shasum = crypto.createHash('sha1')
-//    shasum.update('foo')
-//    alert(shasum.digest('bar'))
   const weakpasswords = ["123456", "123456789", "qwerty", "password", "12345", "qwerty123", "1q2w3e", "12345678", "111111", "1234567890"]
   var hashedPasswords = []
   for (let i = 0; i < weakpasswords.length; i++) {
-    hashedPasswords = hashedPasswords.push(encrypt(weakpasswords[i]))
+    hashedPasswords.push(encrypt(weakpasswords[i]))
   }
-
+  console.log("Stopwatch")
   startStopwatch()
   hashedPasswords.forEach(element => {
-    crackPassword(element)
+    //crackPassword(element)
   });
+  console.log("sleep")
+  sleep(1000)
   stopStopwatch()
+  console.log("It took: " + timer_minutes + ":" + timer_seconds + ":" + timer_milliseconds)
   alert("Done cracking!")
+
 
     // aaaa - aaab - aaac ... aaaz - aaba - aabb - aabc
     //'a' - run through all cycles
-    //'aa' - run through all cycles of the first a while each iteration you loop through 
-    //the entirety of the second a 
+    //'aa' - run through all cycles of the first a while each iteration you loop through
+    //the entirety of the second a
     //alert('Cracking weak passwords in progress...')
     //stopStopwatch()
     //alert("It took: " + timer_seconds)
 }
 
+function sleep(milliseconds) {
+  const date = Date.now();
+  let currentDate = null;
+  do {
+    currentDate = Date.now();
+  } while (currentDate - date < milliseconds);
+}
+
 function crackStrongPasswords() {
-    //var shasum = crypto.createHash('sha1')
-    //shasum.update('foo')
-    //alert(shasum.digest('bar'))
+  //var shasum = crypto.createHash('sha1')
+  //shasum.update('foo')
+  //alert(shasum.digest('bar'))
   const strongpasswords = ["jelly22fi$h", "SterlingGmail20.15", "d3ltagamm@", "!Lov3MyPiano", "&ebay.44"]
   alert('Cracking strong passwords in progress...')
   var hashedPasswords = []
   for (let i = 0; i < strongpasswords; i++) {
-    hashedPasswords = hashedPasswords.push(encrypt(strongpasswords[i]))
+    hashedPasswords.push(encrypt(strongpasswords[i]))
   }
 
   startStopwatch()
   hashedPasswords.forEach(element => {
     crackPassword(element)
-  });
+  })
   stopStopwatch()
 }
 
 function crackPassword(correctHashedPassword) {
-  
+
   if (hashedMostCommonPassword.includes(correctHashedPassword)) {
     return true
   }
-    
+
   let triedLetters = "    "
   let currentHashingLetterIndex = triedLetters.length - 1
   let currentCharASCII = 32
@@ -130,46 +138,55 @@ function crackPassword(correctHashedPassword) {
 }
 
 function encrypt(msg) {
-  var sha1 = require('sha1');
-  sha1(msg);
-  return sha1.to.toUpperCase();
+  //let sha1 = require('sha1')
+  //sha1(msg)
+  //alert('sha1.toString.toUpperCase()')
+  //return sha1.toString.toUpperCase()
  }
 
+ let offset = 0,
+   paused = true;
 
-let offset = 0,
-  paused = true;
+ render();
 
-render();
-  
-function startStopwatch(evt) {
-  if (paused) {
-    paused = false;
-    offset -= Date.now();
-    render();
-  }
-}
+ function startStopwatch(evt) {
+   if (paused) {
+     paused = false;
+     offset -= Date.now();
+     render();
+   }
+ }
 
 function stopStopwatch(evt) {
-    if (!paused) {
-      paused = true;
-      offset += Date.now();
-    }
-    alert("It took: " + timer_minutes + ":" + timer_seconds + ":" + timer_milliseconds)
-  }
+   if (!paused) {
+     paused = true;
+     offset += Date.now();
+   }
+   render()
+}
 
 function format(value, scale, modulo, padding) {
   value = Math.floor(value / scale) % modulo;
-  return value.toString().padStart(padding, 0);
+  return value.toString().padStart(padding, 0)
 }
 
 function render() {
   var value = paused ? offset : Date.now() + offset;
 
-  timer_milliseconds = format(value, 1, 1000, 3);
-  timer_seconds = format(value, 1000, 60, 2);
-  timer_minutes = format(value, 60000, 60, 2);
-  
+  timer_milliseconds = format(value, 1, 1000, 3)
+  timer_seconds = format(value, 1000, 60, 2)
+  timer_minutes = format(value, 60000, 60, 2)
+  document.querySelector('#s_ms').textContent = format(value, 1, 1000, 3);
+  document.querySelector('#s_seconds').textContent = format(value, 1000, 60, 2);
+  document.querySelector('#s_minutes').textContent = format(value, 60000, 60, 2);
+
   if(!paused) {
     requestAnimationFrame(render);
   }
 }
+
+let weakbutton = document.getElementById("crackWeakPasswords");
+let strongbutton = document.getElementById("crackStrongPasswords");
+
+weakbutton.addEventListener("click", crackWeakPasswords);
+strongbutton.addEventListener("click", crackStrongPasswords);
