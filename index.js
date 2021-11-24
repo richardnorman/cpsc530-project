@@ -61,15 +61,17 @@ function cycleThroughRecursion(currentHashingIndex, currentHashingPassword, curr
 function crackWeakPasswords() {
   const weakpasswords = ["123456", "123456789", "qwerty", "password", "12345", "qwerty123", "1q2w3e", "12345678", "111111", "1234567890"]
   var hashedPasswords = []
+  console.log("start")
   for (let i = 0; i < weakpasswords.length; i++) {
-    hashedPasswords.push(encrypt(weakpasswords[i]))
+    //hashedPasswords.push(encrypt(weakpasswords[i]))
   }
+  hashedPasswords.push(encrypt(weakpasswords[4]))
   console.log("Stopwatch")
   startStopwatch()
   hashedPasswords.forEach(element => {
-    //crackPassword(element)
+    crackPassword(element)
   });
-  sleep(1000)
+  //sleep(1000)
   console.log("sleep")
   stopStopwatch()
   console.log("It took: " + timer_minutes + ":" + timer_seconds + ":" + timer_milliseconds)
@@ -106,16 +108,16 @@ function crackStrongPasswords() {
 
   startStopwatch2()
   hashedPasswords.forEach(element => {
-    crackPassword(element)
+    //crackPassword(element)
   })
   stopStopwatch2()
 }
 
 function crackPassword(correctHashedPassword) {
 
-  if (hashedMostCommonPassword.includes(correctHashedPassword)) {
-    return true
-  }
+  //if (hashedMostCommonPassword.includes(correctHashedPassword)) {
+    //return true
+  //}
 
   let triedLetters = "    "
   let currentHashingLetterIndex = triedLetters.length - 1
@@ -140,10 +142,10 @@ function crackPassword(correctHashedPassword) {
 }
 
 function encrypt(msg) {
-  //let sha1 = require('sha1')
-  //sha1(msg)
-  //alert('sha1.toString.toUpperCase()')
-  //return sha1.toString.toUpperCase()
+  sha1(msg);
+  var hash = sha1.create();
+  hash.update(msg)
+  return hash.hex().toUpperCase()
  }
 
  let offset = 0,
