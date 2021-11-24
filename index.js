@@ -36,6 +36,8 @@ var hashedMostCommonPassword = [
   'B800E8E1FF392127A651E3F3A3BA4AB5A2AE5312'
 ]
 
+
+
 function cycleThroughRecursion(currentHashingIndex, currentHashingPassword, currentHashedWeakPassword) {
   //let cycleThroughIndex = currentHashingIndex + 1
   if (currenthashedweakPassword == currentHashedWeakPassword) {
@@ -65,13 +67,13 @@ function crackWeakPasswords() {
   console.log("Stopwatch")
   startStopwatch()
   hashedPasswords.forEach(element => {
-    //crackPassword(element)
+    crackPassword(element)
   });
+  //sleep(1000)
   console.log("sleep")
-  sleep(1000)
   stopStopwatch()
   console.log("It took: " + timer_minutes + ":" + timer_seconds + ":" + timer_milliseconds)
-  alert("Done cracking!")
+  //alert("Done cracking!")
 
 
     // aaaa - aaab - aaac ... aaaz - aaba - aabb - aabc
@@ -102,11 +104,11 @@ function crackStrongPasswords() {
     hashedPasswords.push(encrypt(strongpasswords[i]))
   }
 
-  startStopwatch()
+  startStopwatch2()
   hashedPasswords.forEach(element => {
     crackPassword(element)
   })
-  stopStopwatch()
+  stopStopwatch2()
 }
 
 function crackPassword(correctHashedPassword) {
@@ -147,13 +149,19 @@ function encrypt(msg) {
  let offset = 0,
    paused = true;
 
- render();
-
  function startStopwatch(evt) {
    if (paused) {
+     offset = 0
      paused = false;
      offset -= Date.now();
-     render();
+   }
+ }
+
+ function startStopwatch2(evt) {
+   if (paused) {
+     offset = 0
+     paused = false;
+     offset -= Date.now();
    }
  }
 
@@ -161,8 +169,16 @@ function stopStopwatch(evt) {
    if (!paused) {
      paused = true;
      offset += Date.now();
+     render2()
    }
-   render()
+}
+
+function stopStopwatch2(evt) {
+   if (!paused) {
+     paused = true;
+     offset += Date.now();
+     render2()
+   }
 }
 
 function format(value, scale, modulo, padding) {
@@ -176,13 +192,23 @@ function render() {
   timer_milliseconds = format(value, 1, 1000, 3)
   timer_seconds = format(value, 1000, 60, 2)
   timer_minutes = format(value, 60000, 60, 2)
+  document.querySelector('#s_ms2').textContent = format(value, 1, 1000, 3);
+  document.querySelector('#s_seconds2').textContent = format(value, 1000, 60, 2);
+  document.querySelector('#s_minutes2').textContent = format(value, 60000, 60, 2);
+  document.querySelector('#timerStrong').style.display = 'block'
+}
+
+function render2() {
+  console.log("test")
+  var value = paused ? offset : Date.now() + offset;
+
+  timer_milliseconds = format(value, 1, 1000, 3)
+  timer_seconds = format(value, 1000, 60, 2)
+  timer_minutes = format(value, 60000, 60, 2)
   document.querySelector('#s_ms').textContent = format(value, 1, 1000, 3);
   document.querySelector('#s_seconds').textContent = format(value, 1000, 60, 2);
   document.querySelector('#s_minutes').textContent = format(value, 60000, 60, 2);
-
-  if(!paused) {
-    requestAnimationFrame(render);
-  }
+  document.querySelector('#timerWeak').style.display = 'block'
 }
 
 let weakbutton = document.getElementById("crackWeakPasswords");
