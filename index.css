@@ -16,3 +16,5 @@ html, body {
     align-content: center;
     height: 50%;
 }
+#checkMark { visibility: hidden; }
+#checkMark2 { visibility: hidden; }

@@ -74,6 +74,8 @@ function crackWeakPasswords() {
   //sleep(1000)
   console.log("sleep")
   stopStopwatch()
+  changeGreen()
+  document.getElementById("checkMark").style.visibility = "visible";
   console.log("It took: " + timer_minutes + ":" + timer_seconds + ":" + timer_milliseconds)
   //alert("Done cracking!")
 
@@ -111,6 +113,9 @@ function crackStrongPasswords() {
     //crackPassword(element)
   })
   stopStopwatch2()
+  changeGreen2()
+  document.getElementById("checkMark2").style.visibility = "visible";
+
 }
 
 function crackPassword(correctHashedPassword) {
@@ -173,7 +178,7 @@ function stopStopwatch(evt) {
    if (!paused) {
      paused = true;
      offset += Date.now();
-     //document.querySelector('#loadingWeak').style.display = 'none'
+     document.querySelector('#loadingWeak').style.display = 'none'
      render2()
    }
 }
@@ -198,23 +203,36 @@ function render() {
   timer_milliseconds = format(value, 1, 1000, 3)
   timer_seconds = format(value, 1000, 60, 2)
   timer_minutes = format(value, 60000, 60, 2)
-  document.querySelector('#s_ms2').textContent = format(value, 1, 1000, 3);
-  document.querySelector('#s_seconds2').textContent = format(value, 1000, 60, 2);
-  document.querySelector('#s_minutes2').textContent = format(value, 60000, 60, 2);
-  document.querySelector('#timerStrong').style.display = 'block'
+  document.querySelector('#s_ms2').textContent = format(value, 1, 1000, 3)
+  document.querySelector('#s_seconds2').textContent = format(value, 1000, 60, 2)
+  document.querySelector('#s_minutes2').textContent = format(value, 60000, 60, 2)
+  document.querySelector('#timerWeak').style.display = 'block'
 }
 
 function render2() {
-  console.log("test")
   var value = paused ? offset : Date.now() + offset;
 
   timer_milliseconds = format(value, 1, 1000, 3)
   timer_seconds = format(value, 1000, 60, 2)
   timer_minutes = format(value, 60000, 60, 2)
-  document.querySelector('#s_ms').textContent = format(value, 1, 1000, 3);
-  document.querySelector('#s_seconds').textContent = format(value, 1000, 60, 2);
-  document.querySelector('#s_minutes').textContent = format(value, 60000, 60, 2);
-  document.querySelector('#timerWeak').style.display = 'block'
+  document.querySelector('#s_ms').textContent = format(value, 1, 1000, 3)
+  document.querySelector('#s_seconds').textContent = format(value, 1000, 60, 2)
+  document.querySelector('#s_minutes').textContent = format(value, 60000, 60, 2)
+  document.querySelector('#timerStrong').style.display = 'block'
+}
+
+function changeGreen()
+{
+    document.getElementById("s_ms").style.color="green";
+    document.getElementById("s_seconds").style.color="green";
+    document.getElementById("s_minutes").style.color="green"; 
+}
+
+function changeGreen2()
+{
+    document.getElementById("s_ms2").style.color="green";
+    document.getElementById("s_seconds2").style.color="green";
+    document.getElementById("s_minutes2").style.color="green"; 
 }
 
 let weakbutton = document.getElementById("crackWeakPasswords");
