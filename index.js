@@ -65,7 +65,7 @@ function crackWeakPasswords() {
 }
 
 function crackStrongPasswords() {
-  const strongpasswords = ["jelly22fi$h", "SterlingGmail20.15", "d3ltagamm@", "!Lov3MyPiano", "&ebay.44"]
+  const strongpasswords = ["!Lov3MyPiano"]
   var hashedPasswords = []
   for (let i = 0; i < strongpasswords.length; i++) {
     hashedPasswords.push(encrypt(strongpasswords[i]))
