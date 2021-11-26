@@ -67,7 +67,8 @@ function crackWeakPasswords() {
 function startCrackingByLoadingWeakGIF() {
   const loadingWeakGIF = document.createElement("img");
   loadingWeakGIF.src = "https://i.pinimg.com/originals/24/2e/12/242e12c5180073807fc7ff2d5f244d1c.gif"
-  //loadingWeakGIF.onload = crackWeakPasswords()
+  //loadingWeakGIF. = crackWeakPasswords()
+  loadingWeakGIF.addEventListener("load", crackWeakPasswords)
   loadingWeakGIF.width = 250
 
   document.getElementById('loadingWIndicator').appendChild(loadingWeakGIF)
