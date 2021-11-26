@@ -162,7 +162,6 @@ let offset = 0,
   paused = true;
 
 function startStopwatch(evt) {
-  //document.querySelector('#loadingStrong').style.display = 'block'
   if (paused) {
     offset = 0
     paused = false;
@@ -171,7 +170,6 @@ function startStopwatch(evt) {
 }
 
 function startStopwatch2(evt) {
-  //document.querySelector('#loadingStrong').style.display = 'block'
   if (paused) {
     offset = 0
     paused = false;
@@ -184,7 +182,6 @@ function stopStopwatch(evt) {
   if (!paused) {
     paused = true;
     offset += Date.now();
-    //document.querySelector('#loadingWeak').style.display = 'none'
     render()
   }
 }
@@ -194,7 +191,6 @@ function stopStopwatch2(evt) {
   if (!paused) {
     paused = true;
     offset += Date.now();
-    //document.querySelector('#loadingStrong').style.display = 'none'
     render2()
   }
 }
