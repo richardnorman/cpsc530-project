@@ -36,57 +36,36 @@ var hashedMostCommonPassword = [
   'B800E8E1FF392127A651E3F3A3BA4AB5A2AE5312'
 ]
 
-
-
-function cycleThroughRecursion(currentHashingIndex, currentHashingPassword, currentHashedWeakPassword) {
-  //let cycleThroughIndex = currentHashingIndex + 1
-  if (currenthashedweakPassword == currentHashedWeakPassword) {
-    return true
-  }
-
-  if (currentHashingIndex == currentHashingIndex.length) {
-    return false
-  } else {
-    // hash and compare
-    currentHashingPassword[currentHashingLetterIndex] = String.fromCharCode(currentCharASCII)
-    currentCharASCII ++
-
-    if (cycleThroughRecursion(currentHashingIndex-1, currentHashingPassword, currentHashedWeakPassword)) {
-      return true
-    }
-    return false
-  }
-}
-
 function crackWeakPasswords() {
-  const weakpasswords = ["123456", "123456789", "qwerty", "password", "12345", "qwerty123", "1q2w3e", "12345678", "111111", "1234567890"]
+  const weakpasswords = ["123456", "123456789", "qwerty", "password", "12345", "qwerty123", "1q2w3e", "12345678", "111111", "abcd"]
   var hashedPasswords = []
-  console.log("start")
   for (let i = 0; i < weakpasswords.length; i++) {
-    //hashedPasswords.push(encrypt(weakpasswords[i]))
+    hashedPasswords.push(encrypt(weakpasswords[i]))
   }
-  hashedPasswords.push(encrypt(weakpasswords[4]))
-  console.log("Stopwatch")
   startStopwatch()
-  hashedPasswords.forEach(element => {
-    crackPassword(element)
-  });
-  //sleep(1000)
-  console.log("sleep")
+  isTimeRemaining = false
+  try {
+    hashedPasswords.forEach(element => {
+      isTimeRemaining = crackPassword(element, 4, 6, 65, 123)
+      if (!isTimeRemaining) {
+        throw BreakException
+      }
+    });
+  } catch (error) {}
+  
   stopStopwatch()
-  changeGreen()
-  document.getElementById("checkMark").style.visibility = "visible";
+  if (isTimeRemaining) {
+    changeGreen()
+    document.getElementById("checkMark").style.visibility = "visible";
+  } else {
+    changeRed()
+    console.log(timer_minutes)
+    console.log(timer_seconds)
+    console.log(timer_milliseconds)
+    alert("Time exceeded! Passwords not cracked :(")
+  }
+  
   console.log("It took: " + timer_minutes + ":" + timer_seconds + ":" + timer_milliseconds)
-  //alert("Done cracking!")
-
-
-    // aaaa - aaab - aaac ... aaaz - aaba - aabb - aabc
-    //'a' - run through all cycles
-    //'aa' - run through all cycles of the first a while each iteration you loop through
-    //the entirety of the second a
-    //alert('Cracking weak passwords in progress...')
-    //stopStopwatch()
-    //alert("It took: " + timer_seconds)
 }
 
 function sleep(milliseconds) {
@@ -96,106 +75,142 @@ function sleep(milliseconds) {
     currentDate = Date.now();
   } while (currentDate - date < milliseconds);
 }
+function startCrackingStrong() {
+  document.querySelector('#loadingStrong').visible = 'block'
+  if(document.querySelector('#loadingStrong').style.display == 'block') {
+    crackStrongPasswords()
+  }
+}
 
 function crackStrongPasswords() {
-  //var shasum = crypto.createHash('sha1')
-  //shasum.update('foo')
-  //alert(shasum.digest('bar'))
   const strongpasswords = ["jelly22fi$h", "SterlingGmail20.15", "d3ltagamm@", "!Lov3MyPiano", "&ebay.44"]
   alert('Cracking strong passwords in progress...')
   var hashedPasswords = []
-  for (let i = 0; i < strongpasswords; i++) {
+  for (let i = 0; i < strongpasswords.length; i++) {
     hashedPasswords.push(encrypt(strongpasswords[i]))
   }
-
+  
+  isTimeRemaining = false
   startStopwatch2()
-  hashedPasswords.forEach(element => {
-    //crackPassword(element)
-  })
+  try {
+    hashedPasswords.forEach(element => {
+      isTimeRemaining = crackPassword(element, 7, 12, 33, 127)
+      if (!isTimeRemaining) {
+        throw BreakException
+      }
+    })
+  } catch (error) {}
   stopStopwatch2()
-  changeGreen2()
-  document.getElementById("checkMark2").style.visibility = "visible";
-
+  if (isTimeRemaining) {
+    changeGreen2()
+    document.getElementById("checkMark2").style.visibility = "visible";
+  } else {
+    changeRed2()
+    console.log(timer_minutes)
+    console.log(timer_seconds)
+    console.log(timer_milliseconds)
+    alert("Time exceeded! Passwords not cracked :(")
+  }
 }
 
-function crackPassword(correctHashedPassword) {
+function crackPassword(correctHashedPassword, minlen, maxlen, startCharacter, endCharacter) {
+  if (hashedMostCommonPassword.includes(correctHashedPassword)) {
+    return true
+  }
+  
+  x = String.fromCharCode(startCharacter).repeat(minlen-1)
+  console.log(x)
 
-  //if (hashedMostCommonPassword.includes(correctHashedPassword)) {
-    //return true
-  //}
-
-  let triedLetters = "    "
-  let currentHashingLetterIndex = triedLetters.length - 1
-  let currentCharASCII = 32
-  while(1) {
-    // hash here and compare the hashes with the current currentCharASCII
-    while(currentCharASCII < 127) {
-      if(currentHashingLetterIndex < triedLetters.length - 1 && currentCharASCII == 127) {
-        console.log(triedLetters)
-        if (cycleThroughRecursion(currentHashingLetterIndex, triedLetters, correctHashedPassword)) {
-          //successful cracking!
-          return true
-        } else {
-          //unsuccessful cracking... add another character and repeat the recursion
-          triedLetters += " "
-          currentCharASCII = 32
-          currentHashingLetterIndex = triedLetters.length - 1
-        }
+  for (var thislen = minlen; thislen < maxlen + 1; thislen++) {
+    x = x.concat(String.fromCharCode(startCharacter))
+    console.log("next:", x, thislen)
+    if(all_combinations(x, thislen - 1, correctHashedPassword, startCharacter, endCharacter)) {
+      return true
+    } else {
+      updateTime()
+      if (timer_minutes > 0 && timer_seconds > 10 && timer_milliseconds > 900) {
+        return false
       }
     }
   }
-  return false
+}
+
+function all_combinations(x, len, correctHashedPassword, startCharacter, endCharacter) {
+  for (var c = startCharacter; c < endCharacter; c++) {
+    x = x.substr(0, len) + String.fromCharCode(c) + x.substr(len + 1)
+    if (len > 0) {
+      updateTime()
+      if (timer_minutes > 0 && timer_seconds > 10 && timer_milliseconds > 900) {
+        return false
+      }
+      if (all_combinations(x, len - 1, correctHashedPassword, startCharacter, endCharacter)) {
+        return true
+      } 
+    } else {
+      if (correctHashedPassword == encrypt(x)) {
+        return true
+      }
+    }
+  }
 }
 
 function encrypt(msg) {
-  sha1(msg);
-  var hash = sha1.create();
+  sha1(msg)
+  var hash = sha1.create()
   hash.update(msg)
   return hash.hex().toUpperCase()
- }
+}
 
- let offset = 0,
-   paused = true;
+let offset = 0,
+  paused = true;
 
- function startStopwatch(evt) {
-   document.querySelector('#loadingWeak').style.display = 'block'
-   if (paused) {
-     offset = 0
-     paused = false;
-     offset -= Date.now();
-   }
- }
+function startStopwatch(evt) {
+  document.querySelector('#loadingWeak').style.display = 'block'
+  if (paused) {
+    offset = 0
+    paused = false;
+    offset -= Date.now();
+  }
+}
 
- function startStopwatch2(evt) {
-   if (paused) {
-     offset = 0
-     paused = false;
-     offset -= Date.now();
-   }
-   document.querySelector('#loadingStrong').style.display = 'block'
- }
+function startStopwatch2(evt) {
+  document.querySelector('#loadingStrong').style.display = 'block'
+  if (paused) {
+    offset = 0
+    paused = false;
+    offset -= Date.now();
+  }
+}
 
 function stopStopwatch(evt) {
-   if (!paused) {
-     paused = true;
-     offset += Date.now();
-     document.querySelector('#loadingWeak').style.display = 'none'
-     render2()
-   }
+  if (!paused) {
+    paused = true;
+    offset += Date.now();
+    document.querySelector('#loadingWeak').style.display = 'none'
+    render2()
+  }
 }
 
 function stopStopwatch2(evt) {
-   if (!paused) {
-     paused = true;
-     offset += Date.now();
-     //document.querySelector('#loadingStrong').style.display = 'none'
-     render2()
-   }
+  if (!paused) {
+    paused = true;
+    offset += Date.now();
+    //document.querySelector('#loadingStrong').style.display = 'none'
+    render2()
+  }
 }
 
 function format(value, scale, modulo, padding) {
   value = Math.floor(value / scale) % modulo;
   return value.toString().padStart(padding, 0)
+}
+
+function updateTime() {
+  var value = paused ? offset : Date.now() + offset;
+
+  timer_milliseconds = format(value, 1, 1000, 3)
+  timer_seconds = format(value, 1000, 60, 2)
+  timer_minutes = format(value, 60000, 60, 2)
 }
 
 function render() {
@@ -222,22 +237,31 @@ function render2() {
   document.querySelector('#timerStrong').style.display = 'block'
 }
 
-function changeGreen()
-{
-    document.getElementById("s_ms").style.color="green";
-    document.getElementById("s_seconds").style.color="green";
-    document.getElementById("s_minutes").style.color="green";
+function changeGreen() {
+  document.getElementById("s_ms").style.color = "green";
+  document.getElementById("s_seconds").style.color = "green";
+  document.getElementById("s_minutes").style.color = "green";
 }
 
-function changeGreen2()
-{
-    document.getElementById("s_ms2").style.color="green";
-    document.getElementById("s_seconds2").style.color="green";
-    document.getElementById("s_minutes2").style.color="green";
+function changeGreen2() {
+  document.getElementById("s_ms2").style.color = "green";
+  document.getElementById("s_seconds2").style.color = "green";
+  document.getElementById("s_minutes2").style.color = "green";
+}
+
+function changeRed() {
+  document.getElementById("s_ms").style.color = "red";
+  document.getElementById("s_seconds").style.color = "red";
+  document.getElementById("s_minutes").style.color = "red";
+}
+function changeRed2() {
+  document.getElementById("s_ms2").style.color = "red";
+  document.getElementById("s_seconds2").style.color = "red";
+  document.getElementById("s_minutes2").style.color = "red";
 }
 
 let weakbutton = document.getElementById("crackWeakPasswords");
 let strongbutton = document.getElementById("crackStrongPasswords");
 
 weakbutton.addEventListener("click", crackWeakPasswords);
-strongbutton.addEventListener("click", crackStrongPasswords);
+strongbutton.addEventListener("click", startCrackingStrong);
