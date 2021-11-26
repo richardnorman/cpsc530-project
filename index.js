@@ -64,6 +64,15 @@ function crackWeakPasswords() {
   console.log("It took: " + timer_minutes + ":" + timer_seconds + ":" + timer_milliseconds)
 }
 
+function startCrackingByLoadingWeakGIF() {
+  const loadingWeakGIF = document.createElement("img");
+  loadingWeakGIF.src = "https://i.pinimg.com/originals/24/2e/12/242e12c5180073807fc7ff2d5f244d1c.gif"
+  //loadingWeakGIF.onload = crackWeakPasswords()
+  loadingWeakGIF.width = 250
+
+  document.getElementById('loadingWIndicator').appendChild(loadingWeakGIF)
+}
+
 function crackStrongPasswords() {
   const strongpasswords = ["!Lov3MyPiano"]
   var hashedPasswords = []
@@ -142,7 +151,7 @@ let offset = 0,
   paused = true;
 
 function startStopwatch(evt) {
-  document.querySelector('#loadingWeak').style.display = 'block'
+  //document.querySelector('#loadingWeak').style.display = 'block'
   if (paused) {
     offset = 0
     paused = false;
@@ -151,7 +160,7 @@ function startStopwatch(evt) {
 }
 
 function startStopwatch2(evt) {
-  document.querySelector('#loadingStrong').style.display = 'block'
+  //document.querySelector('#loadingStrong').style.display = 'block'
   if (paused) {
     offset = 0
     paused = false;
@@ -163,7 +172,7 @@ function stopStopwatch(evt) {
   if (!paused) {
     paused = true;
     offset += Date.now();
-    document.querySelector('#loadingWeak').style.display = 'none'
+    //document.querySelector('#loadingWeak').style.display = 'none'
     render()
   }
 }
@@ -240,5 +249,5 @@ function changeRed2() {
 let weakbutton = document.getElementById("crackWeakPasswords");
 let strongbutton = document.getElementById("crackStrongPasswords");
 
-weakbutton.addEventListener("click", crackWeakPasswords);
+weakbutton.addEventListener("click", startCrackingByLoadingWeakGIF);
 strongbutton.addEventListener("click", crackStrongPasswords);
