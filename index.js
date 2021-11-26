@@ -66,8 +66,8 @@ function crackWeakPasswords() {
 
 function startCrackingByLoadingWeakGIF() {
   const loadingWeakGIF = document.createElement("img");
+  loadingWeakGIF.id = "lWeak"
   loadingWeakGIF.src = "https://i.pinimg.com/originals/24/2e/12/242e12c5180073807fc7ff2d5f244d1c.gif"
-  //loadingWeakGIF. = crackWeakPasswords()
   loadingWeakGIF.addEventListener("load", crackWeakPasswords)
   loadingWeakGIF.width = 250
 
@@ -170,6 +170,7 @@ function startStopwatch2(evt) {
 }
 
 function stopStopwatch(evt) {
+  document.getElementById('loadingWIndicator').removeChild(document.getElementById('lWeak'))
   if (!paused) {
     paused = true;
     offset += Date.now();
