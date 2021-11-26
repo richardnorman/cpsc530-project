@@ -52,7 +52,7 @@ function crackWeakPasswords() {
       }
     });
   } catch (error) {}
-  
+
   stopStopwatch()
   if (isTimeRemaining) {
     changeGreen()
@@ -74,13 +74,23 @@ function startCrackingByLoadingWeakGIF() {
   document.getElementById('loadingWIndicator').appendChild(loadingWeakGIF)
 }
 
+function startCrackingByLoadingStrongGIF() {
+  const loadingStrongGIF = document.createElement("img");
+  loadingStrongGIF.id = "lStrong"
+  loadingStrongGIF.src = "https://i.pinimg.com/originals/24/2e/12/242e12c5180073807fc7ff2d5f244d1c.gif"
+  loadingStrongGIF.addEventListener("load", crackStrongPasswords)
+  loadingStrongGIF.width = 250
+
+  document.getElementById('loadingSIndicator').appendChild(loadingStrongGIF)
+}
+
 function crackStrongPasswords() {
   const strongpasswords = ["!Lov3MyPiano"]
   var hashedPasswords = []
   for (let i = 0; i < strongpasswords.length; i++) {
     hashedPasswords.push(encrypt(strongpasswords[i]))
   }
-  
+
   isTimeRemaining = false
   startStopwatch2()
   try {
@@ -106,7 +116,7 @@ function crackPassword(correctHashedPassword, minlen, maxlen, startCharacter, en
   if (hashedMostCommonPassword.includes(correctHashedPassword)) {
     return true
   }
-  
+
   x = String.fromCharCode(startCharacter).repeat(minlen-1)
 
   for (var thislen = minlen; thislen < maxlen + 1; thislen++) {
@@ -115,7 +125,7 @@ function crackPassword(correctHashedPassword, minlen, maxlen, startCharacter, en
       return true
     } else {
       updateTime()
-      if (timer_minutes > 9) {
+      if (timer_minutes > -1 && timer_seconds > 9) {
         return false
       }
     }
@@ -127,12 +137,12 @@ function all_combinations(x, len, correctHashedPassword, startCharacter, endChar
     x = x.substr(0, len) + String.fromCharCode(c) + x.substr(len + 1)
     if (len > 0) {
       updateTime()
-      if (timer_minutes > 9) {
+      if (timer_minutes > -1 && timer_seconds > 9) {
         return false
       }
       if (all_combinations(x, len - 1, correctHashedPassword, startCharacter, endCharacter)) {
         return true
-      } 
+      }
     } else {
       if (correctHashedPassword == encrypt(x)) {
         return true
@@ -152,7 +162,7 @@ let offset = 0,
   paused = true;
 
 function startStopwatch(evt) {
-  //document.querySelector('#loadingWeak').style.display = 'block'
+  //document.querySelector('#loadingStrong').style.display = 'block'
   if (paused) {
     offset = 0
     paused = false;
@@ -180,6 +190,7 @@ function stopStopwatch(evt) {
 }
 
 function stopStopwatch2(evt) {
+  document.getElementById('loadingSIndicator').removeChild(document.getElementById('lStrong'))
   if (!paused) {
     paused = true;
     offset += Date.now();
@@ -252,4 +263,4 @@ let weakbutton = document.getElementById("crackWeakPasswords");
 let strongbutton = document.getElementById("crackStrongPasswords");
 
 weakbutton.addEventListener("click", startCrackingByLoadingWeakGIF);
-strongbutton.addEventListener("click", crackStrongPasswords);
+strongbutton.addEventListener("click", startCrackingByLoadingStrongGIF);
