@@ -59,34 +59,13 @@ function crackWeakPasswords() {
     document.getElementById("checkMark").style.visibility = "visible";
   } else {
     changeRed()
-    console.log(timer_minutes)
-    console.log(timer_seconds)
-    console.log(timer_milliseconds)
     alert("Time exceeded! Passwords not cracked :(")
   }
-  
   console.log("It took: " + timer_minutes + ":" + timer_seconds + ":" + timer_milliseconds)
-}
-
-function sleep(milliseconds) {
-  const date = Date.now();
-  let currentDate = null;
-  do {
-    currentDate = Date.now();
-  } while (currentDate - date < milliseconds);
-}
-
-function startCrackingStrong() {
-  document.querySelector('#loadingStrong').style.visibility = 'visible'
-  
-  //if(document.querySelector('#loadingStrong').style.visibility == 'visible') {
-  //crackStrongPasswords()
-  //}
 }
 
 function crackStrongPasswords() {
   const strongpasswords = ["jelly22fi$h", "SterlingGmail20.15", "d3ltagamm@", "!Lov3MyPiano", "&ebay.44"]
-  alert('Cracking strong passwords in progress...')
   var hashedPasswords = []
   for (let i = 0; i < strongpasswords.length; i++) {
     hashedPasswords.push(encrypt(strongpasswords[i]))
@@ -108,11 +87,9 @@ function crackStrongPasswords() {
     document.getElementById("checkMark2").style.visibility = "visible";
   } else {
     changeRed2()
-    console.log(timer_minutes)
-    console.log(timer_seconds)
-    console.log(timer_milliseconds)
     alert("Time exceeded! Passwords not cracked :(")
   }
+  console.log("It took: " + timer_minutes + ":" + timer_seconds + ":" + timer_milliseconds)
 }
 
 function crackPassword(correctHashedPassword, minlen, maxlen, startCharacter, endCharacter) {
@@ -121,16 +98,14 @@ function crackPassword(correctHashedPassword, minlen, maxlen, startCharacter, en
   }
   
   x = String.fromCharCode(startCharacter).repeat(minlen-1)
-  console.log(x)
 
   for (var thislen = minlen; thislen < maxlen + 1; thislen++) {
     x = x.concat(String.fromCharCode(startCharacter))
-    console.log("next:", x, thislen)
     if(all_combinations(x, thislen - 1, correctHashedPassword, startCharacter, endCharacter)) {
       return true
     } else {
       updateTime()
-      if (timer_minutes > 0 || (timer_minutes > -1 && timer_seconds > 10)) {
+      if (timer_minutes > 9) {
         return false
       }
     }
@@ -142,7 +117,7 @@ function all_combinations(x, len, correctHashedPassword, startCharacter, endChar
     x = x.substr(0, len) + String.fromCharCode(c) + x.substr(len + 1)
     if (len > 0) {
       updateTime()
-      if (timer_minutes > 0 || (timer_minutes > -1 && timer_seconds > 10)) {
+      if (timer_minutes > 9) {
         return false
       }
       if (all_combinations(x, len - 1, correctHashedPassword, startCharacter, endCharacter)) {
