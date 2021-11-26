@@ -131,6 +131,7 @@ function crackPassword(correctHashedPassword) {
     // hash here and compare the hashes with the current currentCharASCII
     while(currentCharASCII < 127) {
       if(currentHashingLetterIndex < triedLetters.length - 1 && currentCharASCII == 127) {
+        console.log(triedLetters)
         if (cycleThroughRecursion(currentHashingLetterIndex, triedLetters, correctHashedPassword)) {
           //successful cracking!
           return true
@@ -225,14 +226,14 @@ function changeGreen()
 {
     document.getElementById("s_ms").style.color="green";
     document.getElementById("s_seconds").style.color="green";
-    document.getElementById("s_minutes").style.color="green"; 
+    document.getElementById("s_minutes").style.color="green";
 }
 
 function changeGreen2()
 {
     document.getElementById("s_ms2").style.color="green";
     document.getElementById("s_seconds2").style.color="green";
-    document.getElementById("s_minutes2").style.color="green"; 
+    document.getElementById("s_minutes2").style.color="green";
 }
 
 let weakbutton = document.getElementById("crackWeakPasswords");
