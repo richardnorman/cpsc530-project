@@ -125,7 +125,7 @@ function crackPassword(correctHashedPassword, minlen, maxlen, startCharacter, en
       return true
     } else {
       updateTime()
-      if (timer_minutes > -1 && timer_seconds > 9) {
+      if (timer_minutes > 9) {
         return false
       }
     }
@@ -137,7 +137,7 @@ function all_combinations(x, len, correctHashedPassword, startCharacter, endChar
     x = x.substr(0, len) + String.fromCharCode(c) + x.substr(len + 1)
     if (len > 0) {
       updateTime()
-      if (timer_minutes > -1 && timer_seconds > 9) {
+      if (timer_minutes > 9) {
         return false
       }
       if (all_combinations(x, len - 1, correctHashedPassword, startCharacter, endCharacter)) {
